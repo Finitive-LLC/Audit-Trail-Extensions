@@ -18,6 +18,6 @@ using static Finitive.AuditTrail.Constants.FeatureIds;
     Dependencies = new[]
     {
         "OrchardCore.Contents",
-        FinitiveAuditTrail,
+        "FinitiveAuditTrail",
     }
 )]

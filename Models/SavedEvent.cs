@@ -4,6 +4,7 @@ using Finitive.AuditTrail.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using OrchardCore.ContentManagement;
+using OrchardCore.Contents.AuditTrail.Controllers;
 using OrchardCore.Entities;
 using OrchardCore.Mvc.Core.Utilities;
 using static Finitive.AuditTrail.Providers.ContentAuditTrailEventProvider;
@@ -24,7 +25,8 @@ namespace Lombiq.AuditTrailExtensions.Models
         }
 
         /// <summary>
-        /// Returns a link to <see cref="ContentController.Detail"/> with the right version number and event ID.
+        /// Returns a link to <see cref="AuditTrailContentController.Display"/> with the right version number and event
+        /// ID.
         /// </summary>
         public string GenerateContentDetailLink(LinkGenerator linkGenerator, HttpContext httpContext) =>
             linkGenerator.GetUriByAction(

@@ -1,5 +1,6 @@
+using Lombiq.AuditTrailExtensions.Constants;
 using OrchardCore.Modules.Manifest;
-using static Lombiq.AuditTrailExtensions.Constants.FeatureIds;
+using static Finitive.AuditTrail.Constants.FeatureIds;
 
 [assembly: Module(
     Name = "Lombiq Audit Trail Extensions",
@@ -10,13 +11,13 @@ using static Lombiq.AuditTrailExtensions.Constants.FeatureIds;
 )]
 
 [assembly: Feature(
-    Id = Default,
+    Id = FeatureIds.Default,
     Name = "Lombiq Audit Trail Extensions",
     Category = "Content",
     Description = "Module with additional functionality to the stock Audit Trail.",
     Dependencies = new[]
     {
         "OrchardCore.Contents",
-        "OrchardCore.AuditTrail",
+        "FinitiveAuditTrail",
     }
 )]

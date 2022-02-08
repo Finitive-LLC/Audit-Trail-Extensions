@@ -1,9 +1,9 @@
+using Finitive.AuditTrail.Indexes;
+using Finitive.AuditTrail.Models;
 using Lombiq.AuditTrailExtensions.Models;
-using OrchardCore.AuditTrail.Indexes;
-using OrchardCore.AuditTrail.Models;
 using System.Threading.Tasks;
 using YesSql;
-using static OrchardCore.Contents.AuditTrail.Services.ContentAuditTrailEventConfiguration;
+using static Finitive.AuditTrail.Providers.ContentAuditTrailEventProvider;
 
 namespace Lombiq.AuditTrailExtensions.Services
 {
@@ -15,8 +15,8 @@ namespace Lombiq.AuditTrailExtensions.Services
 
         public Task<int> GetLatestVersionNumberAsync(string contentItemId) =>
             _session
-                .Query<AuditTrailEvent, AuditTrailEventIndex>(index =>
-                    index.CorrelationId == contentItemId && index.Name == Saved)
+                .Query<AuditTrailEventFork, ContentAuditTrailEventForkIndex>(index =>
+                    index.ContentItemId == contentItemId && index.EventName == Saved)
                 .CountAsync();
 
         public async Task<SavedEvent> GetCurrentVersionAsync(
@@ -24,14 +24,14 @@ namespace Lombiq.AuditTrailExtensions.Services
             string auditTrailEventId)
         {
             var auditTrailEventIndex = await _session
-                .QueryIndex<AuditTrailEventIndex>(index => index.EventId == auditTrailEventId)
+                .QueryIndex<AuditTrailEventIndexFork>(index => index.AuditTrailEventId == auditTrailEventId)
                 .FirstOrDefaultAsync();
             if (auditTrailEventIndex == null) return null;
 
             var query = _session
-                .Query<AuditTrailEvent, AuditTrailEventIndex>(index =>
-                    index.Name == Saved && index.Id <= auditTrailEventIndex.Id)
-                .With<AuditTrailEventIndex>(index => index.CorrelationId == contentItemId)
+                .Query<AuditTrailEventFork, AuditTrailEventIndexFork>(index =>
+                    index.EventName == Saved && index.Id <= auditTrailEventIndex.Id)
+                .With<ContentAuditTrailEventForkIndex>(index => index.ContentItemId == contentItemId)
                 .OrderByDescending(index => index.Id);
 
             var saveEvent = await query.FirstOrDefaultAsync();

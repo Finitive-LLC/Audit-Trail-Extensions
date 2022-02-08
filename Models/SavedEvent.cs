@@ -1,24 +1,26 @@
+using Finitive.AuditTrail.Constants;
+using Finitive.AuditTrail.Controllers;
+using Finitive.AuditTrail.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using OrchardCore.AuditTrail.Models;
 using OrchardCore.ContentManagement;
 using OrchardCore.Contents.AuditTrail.Controllers;
-using OrchardCore.Contents.AuditTrail.Services;
 using OrchardCore.Entities;
 using OrchardCore.Mvc.Core.Utilities;
+using static Finitive.AuditTrail.Providers.ContentAuditTrailEventProvider;
 
 namespace Lombiq.AuditTrailExtensions.Models
 {
     public class SavedEvent
     {
-        public AuditTrailEvent AuditTrailEvent { get; }
+        public AuditTrailEventFork AuditTrailEventFork { get; }
         public ContentItem ContentItem { get; }
         public int VersionNumber { get; }
 
-        public SavedEvent(AuditTrailEvent auditTrailEvent, int versionNumber)
+        public SavedEvent(AuditTrailEventFork auditTrailEvent, int versionNumber)
         {
-            AuditTrailEvent = auditTrailEvent;
-            ContentItem = auditTrailEvent?.As<ContentItem>(ContentAuditTrailEventConfiguration.Saved);
+            AuditTrailEventFork = auditTrailEvent;
+            ContentItem = auditTrailEvent?.As<ContentItem>(Saved);
             VersionNumber = versionNumber;
         }
 
@@ -29,13 +31,13 @@ namespace Lombiq.AuditTrailExtensions.Models
         public string GenerateContentDetailLink(LinkGenerator linkGenerator, HttpContext httpContext) =>
             linkGenerator.GetUriByAction(
                 httpContext,
-                nameof(AuditTrailContentController.Display),
-                typeof(AuditTrailContentController).ControllerName(),
+                nameof(ContentController.Detail),
+                typeof(ContentController).ControllerName(),
                 new
                 {
-                    area = "OrchardCore.AuditTrail",
+                    area = FeatureIds.Area,
                     VersionNumber,
-                    auditTrailEventId = AuditTrailEvent?.EventId,
+                    auditTrailEventId = AuditTrailEventFork?.Id,
                 });
     }
 }

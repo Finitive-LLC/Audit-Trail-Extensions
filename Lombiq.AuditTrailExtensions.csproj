@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <DefaultItemExcludes>$(DefaultItemExcludes);.git*;node_modules\**;Tests\**</DefaultItemExcludes>
   </PropertyGroup>
@@ -15,11 +15,11 @@
     <PackageTags>OrchardCore;Lombiq;AspNetCore;AuditTrail</PackageTags>
     <RepositoryUrl>https://github.com/Lombiq/Audit-Trail-Extensions</RepositoryUrl>
     <PackageProjectUrl>https://github.com/Lombiq/Audit-Trail-Extensions</PackageProjectUrl>
-    <PackageLicenseFile>Licence.md</PackageLicenseFile>
+    <PackageLicenseFile>License.md</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Licence.md" Pack="true" PackagePath="" />
+    <None Include="License.md" Pack="true" PackagePath="" />
     <None Include="Readme.md" />
     <None Include="NuGetIcon.png" Pack="true" PackagePath="" />
   </ItemGroup>
